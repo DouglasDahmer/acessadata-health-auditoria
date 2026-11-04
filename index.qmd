@@ -1,0 +1,47 @@
+---
+title: "Auditoria computacional — Mortalidade por câncer no RS"
+subtitle: "Série histórica 2015–2024 | Entrega 01 do AcessaData-Health"
+date: "2026-11-03"
+---
+
+<div class="hero">
+<div class="eyebrow">Ciência de Dados · Epidemiologia · Reprodutibilidade</div>
+<h1>AcessaData-Health</h1>
+<p>Uma demonstração documentada de processamento e auditoria de dados públicos do Sistema de Informações sobre Mortalidade (SIM), com denominadores populacionais do IBGE.</p>
+<p><strong>Estado:</strong> auditoria computacional concluída no escopo descrito; análise científica e validação documental ainda sujeitas a revisão.</p>
+</div>
+
+<div class="metrics">
+  <div class="metric"><strong>194.368</strong><span>Óbitos totais no recorte, 2015–2024</span></div>
+  <div class="metric"><strong>194.349</strong><span>Óbitos classificados nos estratos</span></div>
+  <div class="metric"><strong>380</strong><span>Estratos ano × sexo × idade</span></div>
+  <div class="metric"><strong>4/4</strong><span>Verificações numéricas AdVeri</span></div>
+</div>
+
+## O que foi realizado
+
+- Processamento dos dados públicos do SIM e agregação de denominadores das projeções populacionais do IBGE.
+- Conferência de 11 fontes **locais** por SHA-256 (dez ZIPs do SIM e uma planilha IBGE).
+- Conciliação anual entre óbitos totais e classificados, com 19 registros fora dos estratos.
+- Reprodução de numeradores, denominadores e taxas em R e Python, no escopo das auditorias locais.
+- Análise de tendência com regressão de Poisson, sensibilidades e incerteza CR2/Satterthwaite.
+- Confronto dos totais de 2022 e 2023 com exportação do DATASUS/TabNet: **diferença zero**.
+
+## Como navegar
+
+| Seção | Conteúdo |
+|---|---|
+| [Auditoria das contagens](auditoria.qmd) | Conciliação anual, gráfico e confronto TabNet |
+| [Resultados estatísticos](tendencias.qmd) | APC, intervalos CR2 e limites inferenciais |
+| [Metodologia e ressalvas](metodologia.qmd) | Definições, denominadores, AdVeri e pendências |
+| [Reproduzir esta demonstração](reproducibilidade.qmd) | Arquivos abertos agregados, scripts e comandos |
+
+::: {.callout-important title="Escopo da publicação"}
+As tabelas incluídas neste repositório são **agregadas e derivadas dos resultados auditados**. Elas permitem reproduzir as verificações públicas desta demonstração, mas **não substituem** o reprocessamento independente dos microdados originais. Não são divulgados microdados individuais nem declarada certificação oficial do layout posicional de 2022–2023.
+:::
+
+## Fontes institucionais
+
+- [Sistema de Informações sobre Mortalidade (SIM) — Ministério da Saúde](https://dadosabertos.saude.gov.br/dataset/sim)
+- [Documentação técnica do SIM](https://svs.aids.gov.br/daent/cgiae/coesv/sistemas-informacao/sim/documentacao/)
+- [Projeções da população — IBGE, Revisão 2024](https://www.ibge.gov.br/estatisticas/sociais/populacao/9109-projecao-da-populacao.html)

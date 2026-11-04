@@ -1,0 +1,65 @@
+---
+title: "Auditoria das contagens"
+subtitle: "Conciliação ano a ano e concordância com o TabNet"
+---
+
+## Conciliação histórica
+
+O recorte inclui óbitos cuja **causa básica** está no intervalo CID-10 **C00–C97**, de pessoas residentes no Rio Grande do Sul. Registros sem sexo e/ou idade classificáveis foram mantidos nos totais gerais, mas não nos estratos dos modelos.
+
+```{r}
+#| label: tbl-conciliacao
+#| tbl-cap: "Óbitos por ano, classificados e diferença para os estratos"
+d <- read.csv("dados_publicos/conciliacao_anual.csv", stringsAsFactors = FALSE)
+stopifnot(nrow(d) == 10, sum(d$total) == 194368,
+          sum(d$classificados) == 194349,
+          sum(d$diferenca) == 19,
+          all(d$total - d$classificados == d$diferenca))
+exibir <- rbind(d, data.frame(ano="Total", total=sum(d$total),
+                              classificados=sum(d$classificados),
+                              diferenca=sum(d$diferenca)))
+knitr::kable(exibir, col.names=c("Ano", "Total", "Classificados", "Diferença"))
+```
+
+```{r}
+#| label: fig-contagens
+#| fig-cap: "Contagens anuais brutas de óbitos no recorte — não equivalem a taxas ajustadas por idade"
+#| fig-width: 9
+#| fig-height: 4.6
+plot(d$ano, d$total, type="o", pch=19, lwd=2,
+     col="#087f88", ylim=c(17500, 22000),
+     xaxt="n", xlab="Ano", ylab="Óbitos (contagem)",
+     main="Mortalidade por neoplasias malignas · RS")
+axis(1, at=d$ano, labels=d$ano)
+grid(col="#dde5e8")
+lines(d$ano, d$total, type="o", pch=19, lwd=2, col="#087f88")
+```
+
+**Importante:** o gráfico de contagens não mede risco individual. Mudanças populacionais e de estrutura etária podem afetar essas contagens; as tendências ajustadas são apresentadas [em outra seção](tendencias.qmd).
+
+## Revisão da sobreposição em 2022
+
+Em 2022, os cinco óbitos fora dos estratos foram conciliados assim: **quatro** registros com apenas sexo não classificado, **zero** com apenas idade não classificada e **um** com ambas as variáveis não classificadas. O código `IDADE=999` está incluído nesse último registro e não constitui uma sexta exclusão.
+
+## Confronto com DATASUS/TabNet
+
+```{r}
+#| label: tbl-tabnet
+#| tbl-cap: "Comparação do processamento local com a tabulação institucional"
+t <- read.csv("dados_publicos/confronto_tabnet.csv")
+stopifnot(identical(as.integer(t$ano), c(2022L, 2023L)),
+          all(t$sim_local == t$tabnet),
+          all(t$diferenca == 0),
+          all(t$sim_local == d$total[match(t$ano, d$ano)]))
+knitr::kable(t, col.names=c("Ano", "SIM local", "TabNet", "Diferença"))
+```
+
+A exportação auditada apresentou **89 categorias CID-10 de C00 a C97**, sem categorias D. Foi registrado o SHA-256 do CSV TabNet utilizado:
+
+`0dbc6e09dde8d72ed74863ef43ca5ca3c389a6c898772fa71d29a50471f2a616`
+
+A fonte de consulta foi o [DATASUS](https://datasus.saude.gov.br/mortalidade-desde-1996-pela-cid-10/). A coincidência de totais demonstra concordância entre procedimentos, **não independência do sistema de origem** (ambos utilizam o SIM).
+
+::: {.callout-note title="Limite da demonstração pública"}
+Este documento recalcula a conciliação a partir de **tabelas agregadas publicadas**. A verificação original de registros individuais, da extração e dos microdados permanece documentada na auditoria local, mas não é executada por este site público.
+:::

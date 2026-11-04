@@ -1,0 +1,156 @@
+[
+  {
+    "objectID": "reproducibilidade.html",
+    "href": "reproducibilidade.html",
+    "title": "Reproduzir a auditoria pública",
+    "section": "",
+    "text": "Os dados públicos deste repositório são três CSVs agregados. Os scripts conferem totais, intervalos de anos, reconciliação de exclusões, confronto TabNet e coerência estrutural dos valores CR2 transcritos.\n_quarto.yml\nindex.qmd\nauditoria.qmd\ntendencias.qmd\nmetodologia.qmd\nreproducibilidade.qmd\ndados_publicos/\n  conciliacao_anual.csv\n  confronto_tabnet.csv\n  apc_cr2.csv\nscripts/\n  verificar_agregados.R\n  verificar_agregados.py"
+  },
+  {
+    "objectID": "reproducibilidade.html#estrutura-e-escopo",
+    "href": "reproducibilidade.html#estrutura-e-escopo",
+    "title": "Reproduzir a auditoria pública",
+    "section": "",
+    "text": "Os dados públicos deste repositório são três CSVs agregados. Os scripts conferem totais, intervalos de anos, reconciliação de exclusões, confronto TabNet e coerência estrutural dos valores CR2 transcritos.\n_quarto.yml\nindex.qmd\nauditoria.qmd\ntendencias.qmd\nmetodologia.qmd\nreproducibilidade.qmd\ndados_publicos/\n  conciliacao_anual.csv\n  confronto_tabnet.csv\n  apc_cr2.csv\nscripts/\n  verificar_agregados.R\n  verificar_agregados.py"
+  },
+  {
+    "objectID": "reproducibilidade.html#executar-no-windows-powershell",
+    "href": "reproducibilidade.html#executar-no-windows-powershell",
+    "title": "Reproduzir a auditoria pública",
+    "section": "Executar no Windows (PowerShell)",
+    "text": "Executar no Windows (PowerShell)\nNo diretório da publicação:\nRscript .\\scripts\\verificar_agregados.R\npython .\\scripts\\verificar_agregados.py\nquarto render\nNew-Item -ItemType File -Path .\\docs\\.nojekyll -Force | Out-Null\nquarto render exige o Quarto CLI e R com o pacote knitr disponível para os blocos de código. Nenhuma conexão com o GitHub é feita por esses comandos."
+  },
+  {
+    "objectID": "reproducibilidade.html#o-que-cada-camada-realmente-demonstra",
+    "href": "reproducibilidade.html#o-que-cada-camada-realmente-demonstra",
+    "title": "Reproduzir a auditoria pública",
+    "section": "O que cada camada realmente demonstra",
+    "text": "O que cada camada realmente demonstra\n\nScripts agregados deste repositório: reproduzem as contas e verificam consistência das três tabelas publicadas.\nResultados da auditoria local original: foram obtidos de arquivos completos SIM/IBGE e registrados em relatórios, manifestos e saídas anteriormente gerados.\nTabNet: confronto contra tabulação institucional, mas utiliza a mesma fonte de mortalidade SIM.\nAdVeri: quatro verificações específicas em arquivos CSV processados; não é uma certificação estatística ou documental universal.\n\nPara reprocessar microdados do zero, outro pesquisador precisará obter os recursos oficiais compatíveis, documentar sua versão/layout, reproduzir transformações, reconstruir os denominadores e reexecutar as análises estatísticas. Esta demonstração não fornece um pipeline integral a partir do SIM bruto."
+  },
+  {
+    "objectID": "reproducibilidade.html#publicação-github-pages",
+    "href": "reproducibilidade.html#publicação-github-pages",
+    "title": "Reproduzir a auditoria pública",
+    "section": "Publicação GitHub Pages",
+    "text": "Publicação GitHub Pages\nEsta publicação usa saída docs/ para o GitHub Pages. Depois de revisar o conteúdo e renderizar localmente, crie um repositório separado do ambiente de pesquisa e, em Settings → Pages, publique a partir de main / docs."
+  },
+  {
+    "objectID": "tendencias.html",
+    "href": "tendencias.html",
+    "title": "Resultados estatísticos e limites inferenciais",
+    "section": "",
+    "text": "Para cada sexo, foi ajustado um modelo de Poisson com ligação logarítmica, ajuste por 19 faixas etárias e offset log(população):\n\\[\n\\log\\{E(Y_{at})\\} = \\log(P_{at}) + \\alpha + \\beta(t-2015) + \\gamma_a\n\\]\nA variação percentual anual estimada é \\(\\mathrm{APC}=100(\\exp(\\beta)-1)\\). Não é uma regressão diretamente aplicada à série das taxas padronizadas."
+  },
+  {
+    "objectID": "tendencias.html#modelo-e-interpretação",
+    "href": "tendencias.html#modelo-e-interpretação",
+    "title": "Resultados estatísticos e limites inferenciais",
+    "section": "",
+    "text": "Para cada sexo, foi ajustado um modelo de Poisson com ligação logarítmica, ajuste por 19 faixas etárias e offset log(população):\n\\[\n\\log\\{E(Y_{at})\\} = \\log(P_{at}) + \\alpha + \\beta(t-2015) + \\gamma_a\n\\]\nA variação percentual anual estimada é \\(\\mathrm{APC}=100(\\exp(\\beta)-1)\\). Não é uma regressão diretamente aplicada à série das taxas padronizadas."
+  },
+  {
+    "objectID": "tendencias.html#estimativas-cr2",
+    "href": "tendencias.html#estimativas-cr2",
+    "title": "Resultados estatísticos e limites inferenciais",
+    "section": "Estimativas CR2",
+    "text": "Estimativas CR2\nAs estimativas abaixo foram transcritas dos relatórios estatísticos locais previamente auditados. O código R a seguir exibe e representa os valores agregados, mas não reestima o modelo (os microdados não acompanham a publicação).\n\n\nMostrar código de verificação\napc &lt;- read.csv(\"dados_publicos/apc_cr2.csv\", stringsAsFactors=FALSE)\nstopifnot(nrow(apc)==4, all(apc$ic_inferior &lt; apc$apc),\n          all(apc$apc &lt; apc$ic_superior))\nknitr::kable(apc, col.names=c(\"Sexo\", \"Modelo\", \"APC (%)\", \"IC inf. (%)\", \"IC sup. (%)\", \"p CR2\", \"gl\"), digits=4)\n\n\n\n\nTabela 1: APC e intervalos CR2/Satterthwaite — valores auditados e transcritos\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSexo\nModelo\nAPC (%)\nIC inf. (%)\nIC sup. (%)\np CR2\ngl\n\n\n\n\nFeminino\nLinear\n-0.4144\n-0.8788\n0.0522\n0,0702\n4.47\n\n\nMasculino\nLinear\n-1.6318\n-1.9945\n-1.2677\n&lt;0,001\n4.47\n\n\nFeminino\nIndicadores 2020/2021\n-0.3219\n-1.4009\n0.7689\n0,174\n1.05\n\n\nMasculino\nIndicadores 2020/2021\n-1.5972\n-1.9736\n-1.2192\n&lt;0,001\n3.86\n\n\n\n\n\n\n\n\n\n\nMostrar código de verificação\npar(mar=c(4.5, 18, 1.5, 2))\npos &lt;- 4:1\nrotulos &lt;- paste(apc$sexo, \"—\", apc$modelo)\nplot(NA, xlim=c(-2.2, 1.1), ylim=c(.5,4.5), yaxt=\"n\",\n     xlab=\"Variação percentual anual (%)\", ylab=\"\", bty=\"l\")\nabline(v=0, lty=2, col=\"#697c84\", lwd=1.5)\naxis(2, at=pos, labels=rotulos, las=1, cex.axis=.8, tick=FALSE)\ncor &lt;- ifelse(apc$sexo==\"Feminino\", \"#087f88\", \"#17364b\")\nsegments(apc$ic_inferior, pos, apc$ic_superior, pos,\n         col=cor, lwd=3)\npoints(apc$apc, pos, pch=19, cex=1.3, col=cor)\n\n\n\n\n\n\n\n\nFigura 1: Estimativas pontuais de APC e intervalos de 95% CR2; linha tracejada indica APC = 0\n\n\n\n\n\nNos modelos lineares, os graus de liberdade de Satterthwaite foram aproximadamente 4,47 por sexo. Na especificação com indicadores de 2020/2021, foram aproximadamente 1,05 no feminino e 3,86 no masculino.\nLeitura correta: as APCs pontuais são negativas nos dois sexos. Os intervalos CR2 masculinos permanecem inteiramente negativos nos dois modelos; os femininos incluem zero. Isso não comprova estabilidade da mortalidade feminina nem causalidade de qualquer evento histórico.\n\n\n\n\n\n\nAvisoInferência com poucos períodos\n\n\n\nExistem apenas dez anos distintos. A correção CR2 não resolve automaticamente correlação serial, e os indicadores de 2020/2021 foram explorados após inspeção de resíduos. Esta entrega não substitui revisão estatística externa."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Auditoria computacional — Mortalidade por câncer no RS",
+    "section": "",
+    "text": "Ciência de Dados · Epidemiologia · Reprodutibilidade\n\n\n\nUma demonstração documentada de processamento e auditoria de dados públicos do Sistema de Informações sobre Mortalidade (SIM), com denominadores populacionais do IBGE.\n\n\nEstado: auditoria computacional concluída no escopo descrito; análise científica e validação documental ainda sujeitas a revisão."
+  },
+  {
+    "objectID": "index.html#o-que-foi-realizado",
+    "href": "index.html#o-que-foi-realizado",
+    "title": "Auditoria computacional — Mortalidade por câncer no RS",
+    "section": "O que foi realizado",
+    "text": "O que foi realizado\n\nProcessamento dos dados públicos do SIM e agregação de denominadores das projeções populacionais do IBGE.\nConferência de 11 fontes locais por SHA-256 (dez ZIPs do SIM e uma planilha IBGE).\nConciliação anual entre óbitos totais e classificados, com 19 registros fora dos estratos.\nReprodução de numeradores, denominadores e taxas em R e Python, no escopo das auditorias locais.\nAnálise de tendência com regressão de Poisson, sensibilidades e incerteza CR2/Satterthwaite.\nConfronto dos totais de 2022 e 2023 com exportação do DATASUS/TabNet: diferença zero."
+  },
+  {
+    "objectID": "index.html#como-navegar",
+    "href": "index.html#como-navegar",
+    "title": "Auditoria computacional — Mortalidade por câncer no RS",
+    "section": "Como navegar",
+    "text": "Como navegar\n\n\n\nSeção\nConteúdo\n\n\n\n\nAuditoria das contagens\nConciliação anual, gráfico e confronto TabNet\n\n\nResultados estatísticos\nAPC, intervalos CR2 e limites inferenciais\n\n\nMetodologia e ressalvas\nDefinições, denominadores, AdVeri e pendências\n\n\nReproduzir esta demonstração\nArquivos abertos agregados, scripts e comandos\n\n\n\n\n\n\n\n\n\nImportanteEscopo da publicação\n\n\n\nAs tabelas incluídas neste repositório são agregadas e derivadas dos resultados auditados. Elas permitem reproduzir as verificações públicas desta demonstração, mas não substituem o reprocessamento independente dos microdados originais. Não são divulgados microdados individuais nem declarada certificação oficial do layout posicional de 2022–2023."
+  },
+  {
+    "objectID": "index.html#fontes-institucionais",
+    "href": "index.html#fontes-institucionais",
+    "title": "Auditoria computacional — Mortalidade por câncer no RS",
+    "section": "Fontes institucionais",
+    "text": "Fontes institucionais\n\nSistema de Informações sobre Mortalidade (SIM) — Ministério da Saúde\nDocumentação técnica do SIM\nProjeções da população — IBGE, Revisão 2024"
+  },
+  {
+    "objectID": "auditoria.html",
+    "href": "auditoria.html",
+    "title": "Auditoria das contagens",
+    "section": "",
+    "text": "O recorte inclui óbitos cuja causa básica está no intervalo CID-10 C00–C97, de pessoas residentes no Rio Grande do Sul. Registros sem sexo e/ou idade classificáveis foram mantidos nos totais gerais, mas não nos estratos dos modelos.\n\n\nMostrar código de verificação\nd &lt;- read.csv(\"dados_publicos/conciliacao_anual.csv\", stringsAsFactors = FALSE)\nstopifnot(nrow(d) == 10, sum(d$total) == 194368,\n          sum(d$classificados) == 194349,\n          sum(d$diferenca) == 19,\n          all(d$total - d$classificados == d$diferenca))\nexibir &lt;- rbind(d, data.frame(ano=\"Total\", total=sum(d$total),\n                              classificados=sum(d$classificados),\n                              diferenca=sum(d$diferenca)))\nknitr::kable(exibir, col.names=c(\"Ano\", \"Total\", \"Classificados\", \"Diferença\"))\n\n\n\n\nTabela 1: Óbitos por ano, classificados e diferença para os estratos\n\n\n\n\n\n\nAno\nTotal\nClassificados\nDiferença\n\n\n\n\n2015\n18094\n18093\n1\n\n\n2016\n18409\n18409\n0\n\n\n2017\n18979\n18978\n1\n\n\n2018\n19085\n19079\n6\n\n\n2019\n19665\n19665\n0\n\n\n2020\n18960\n18960\n0\n\n\n2021\n19579\n19573\n6\n\n\n2022\n20234\n20229\n5\n\n\n2023\n20291\n20291\n0\n\n\n2024\n21072\n21072\n0\n\n\nTotal\n194368\n194349\n19\n\n\n\n\n\n\n\n\n\n\nMostrar código de verificação\nplot(d$ano, d$total, type=\"o\", pch=19, lwd=2,\n     col=\"#087f88\", ylim=c(17500, 22000),\n     xaxt=\"n\", xlab=\"Ano\", ylab=\"Óbitos (contagem)\",\n     main=\"Mortalidade por neoplasias malignas · RS\")\naxis(1, at=d$ano, labels=d$ano)\ngrid(col=\"#dde5e8\")\nlines(d$ano, d$total, type=\"o\", pch=19, lwd=2, col=\"#087f88\")\n\n\n\n\n\n\n\n\nFigura 1: Contagens anuais brutas de óbitos no recorte — não equivalem a taxas ajustadas por idade\n\n\n\n\n\nImportante: o gráfico de contagens não mede risco individual. Mudanças populacionais e de estrutura etária podem afetar essas contagens; as tendências ajustadas são apresentadas em outra seção."
+  },
+  {
+    "objectID": "auditoria.html#conciliação-histórica",
+    "href": "auditoria.html#conciliação-histórica",
+    "title": "Auditoria das contagens",
+    "section": "",
+    "text": "O recorte inclui óbitos cuja causa básica está no intervalo CID-10 C00–C97, de pessoas residentes no Rio Grande do Sul. Registros sem sexo e/ou idade classificáveis foram mantidos nos totais gerais, mas não nos estratos dos modelos.\n\n\nMostrar código de verificação\nd &lt;- read.csv(\"dados_publicos/conciliacao_anual.csv\", stringsAsFactors = FALSE)\nstopifnot(nrow(d) == 10, sum(d$total) == 194368,\n          sum(d$classificados) == 194349,\n          sum(d$diferenca) == 19,\n          all(d$total - d$classificados == d$diferenca))\nexibir &lt;- rbind(d, data.frame(ano=\"Total\", total=sum(d$total),\n                              classificados=sum(d$classificados),\n                              diferenca=sum(d$diferenca)))\nknitr::kable(exibir, col.names=c(\"Ano\", \"Total\", \"Classificados\", \"Diferença\"))\n\n\n\n\nTabela 1: Óbitos por ano, classificados e diferença para os estratos\n\n\n\n\n\n\nAno\nTotal\nClassificados\nDiferença\n\n\n\n\n2015\n18094\n18093\n1\n\n\n2016\n18409\n18409\n0\n\n\n2017\n18979\n18978\n1\n\n\n2018\n19085\n19079\n6\n\n\n2019\n19665\n19665\n0\n\n\n2020\n18960\n18960\n0\n\n\n2021\n19579\n19573\n6\n\n\n2022\n20234\n20229\n5\n\n\n2023\n20291\n20291\n0\n\n\n2024\n21072\n21072\n0\n\n\nTotal\n194368\n194349\n19\n\n\n\n\n\n\n\n\n\n\nMostrar código de verificação\nplot(d$ano, d$total, type=\"o\", pch=19, lwd=2,\n     col=\"#087f88\", ylim=c(17500, 22000),\n     xaxt=\"n\", xlab=\"Ano\", ylab=\"Óbitos (contagem)\",\n     main=\"Mortalidade por neoplasias malignas · RS\")\naxis(1, at=d$ano, labels=d$ano)\ngrid(col=\"#dde5e8\")\nlines(d$ano, d$total, type=\"o\", pch=19, lwd=2, col=\"#087f88\")\n\n\n\n\n\n\n\n\nFigura 1: Contagens anuais brutas de óbitos no recorte — não equivalem a taxas ajustadas por idade\n\n\n\n\n\nImportante: o gráfico de contagens não mede risco individual. Mudanças populacionais e de estrutura etária podem afetar essas contagens; as tendências ajustadas são apresentadas em outra seção."
+  },
+  {
+    "objectID": "auditoria.html#revisão-da-sobreposição-em-2022",
+    "href": "auditoria.html#revisão-da-sobreposição-em-2022",
+    "title": "Auditoria das contagens",
+    "section": "Revisão da sobreposição em 2022",
+    "text": "Revisão da sobreposição em 2022\nEm 2022, os cinco óbitos fora dos estratos foram conciliados assim: quatro registros com apenas sexo não classificado, zero com apenas idade não classificada e um com ambas as variáveis não classificadas. O código IDADE=999 está incluído nesse último registro e não constitui uma sexta exclusão."
+  },
+  {
+    "objectID": "auditoria.html#confronto-com-datasustabnet",
+    "href": "auditoria.html#confronto-com-datasustabnet",
+    "title": "Auditoria das contagens",
+    "section": "Confronto com DATASUS/TabNet",
+    "text": "Confronto com DATASUS/TabNet\n\n\nMostrar código de verificação\nt &lt;- read.csv(\"dados_publicos/confronto_tabnet.csv\")\nstopifnot(identical(as.integer(t$ano), c(2022L, 2023L)),\n          all(t$sim_local == t$tabnet),\n          all(t$diferenca == 0),\n          all(t$sim_local == d$total[match(t$ano, d$ano)]))\nknitr::kable(t, col.names=c(\"Ano\", \"SIM local\", \"TabNet\", \"Diferença\"))\n\n\n\n\nTabela 2: Comparação do processamento local com a tabulação institucional\n\n\n\n\n\n\nAno\nSIM local\nTabNet\nDiferença\n\n\n\n\n2022\n20234\n20234\n0\n\n\n2023\n20291\n20291\n0\n\n\n\n\n\n\n\n\nA exportação auditada apresentou 89 categorias CID-10 de C00 a C97, sem categorias D. Foi registrado o SHA-256 do CSV TabNet utilizado:\n0dbc6e09dde8d72ed74863ef43ca5ca3c389a6c898772fa71d29a50471f2a616\nA fonte de consulta foi o DATASUS. A coincidência de totais demonstra concordância entre procedimentos, não independência do sistema de origem (ambos utilizam o SIM).\n\n\n\n\n\n\nNotaLimite da demonstração pública\n\n\n\nEste documento recalcula a conciliação a partir de tabelas agregadas publicadas. A verificação original de registros individuais, da extração e dos microdados permanece documentada na auditoria local, mas não é executada por este site público."
+  },
+  {
+    "objectID": "metodologia.html",
+    "href": "metodologia.html",
+    "title": "Metodologia, controles e limitações",
+    "section": "",
+    "text": "População-alvo: residentes do Rio Grande do Sul, identificados por município de residência (códigos iniciados em 43).\nEvento: óbitos cuja causa básica pertence a CID-10 C00–C97. Não são casos incidentes de câncer.\nPeríodo: 2015–2024.\nEstratos: 10 anos × 2 sexos × 19 faixas etárias, de 00–04 até 90+.\nDenominadores: projeções populacionais do IBGE, Revisão 2024, por sexo e idade, agregadas conforme o estudo.\n\nA taxa específica é \\((\\mathrm{óbitos}/\\mathrm{população})\\times 100.000\\). A padronização direta utiliza pesos fixos provenientes da população total do RS em 2024 (ambos os sexos). Não equivale à população-padrão mundial."
+  },
+  {
+    "objectID": "metodologia.html#recorte-epidemiológico",
+    "href": "metodologia.html#recorte-epidemiológico",
+    "title": "Metodologia, controles e limitações",
+    "section": "",
+    "text": "População-alvo: residentes do Rio Grande do Sul, identificados por município de residência (códigos iniciados em 43).\nEvento: óbitos cuja causa básica pertence a CID-10 C00–C97. Não são casos incidentes de câncer.\nPeríodo: 2015–2024.\nEstratos: 10 anos × 2 sexos × 19 faixas etárias, de 00–04 até 90+.\nDenominadores: projeções populacionais do IBGE, Revisão 2024, por sexo e idade, agregadas conforme o estudo.\n\nA taxa específica é \\((\\mathrm{óbitos}/\\mathrm{população})\\times 100.000\\). A padronização direta utiliza pesos fixos provenientes da população total do RS em 2024 (ambos os sexos). Não equivale à população-padrão mundial."
+  },
+  {
+    "objectID": "metodologia.html#matriz-de-controles",
+    "href": "metodologia.html#matriz-de-controles",
+    "title": "Metodologia, controles e limitações",
+    "section": "Matriz de controles",
+    "text": "Matriz de controles\n\n\n\n\n\n\n\n\nControle\nEvidência relatada na auditoria local\nO que comprova\n\n\n\n\nIntegridade\n11/11 fontes locais com SHA-256 conferido\nCorrespondência dos arquivos locais aos hashes do manifesto\n\n\nExtração\nSIM 2015–2024, conferência estrutural de 2022–2023\nEstrutura e consistência dos dados no escopo examinado\n\n\nConciliação\n194.368 totais; 194.349 classificados; 19 diferenças\nRegras de inclusão/exclusão reconciliadas\n\n\nDupla implementação\nPython × R para numeradores, denominadores, taxas e modelos\nReprodutibilidade entre implementações no escopo testado\n\n\nAdVeri 0.13.0.dev1\n4 verificações VALIDADO, tolerância zero\nDuas contagens e duas somas em CSVs processados\n\n\nTabNet\n2022 e 2023 idênticos ao SIM local\nConcordância externa de consulta sobre a mesma fonte SIM\n\n\nCR2\nCorreção por agrupamento anual e Satterthwaite\nSensibilidade da incerteza à especificação adotada\n\n\n\nA AdVeri não certificou o layout oficial, nem validou diretamente os pressupostos estatísticos. A concordância entre Python e R também não substitui avaliação epidemiológica."
+  },
+  {
+    "objectID": "metodologia.html#evidências-originais-e-rastreabilidade",
+    "href": "metodologia.html#evidências-originais-e-rastreabilidade",
+    "title": "Metodologia, controles e limitações",
+    "section": "Evidências originais e rastreabilidade",
+    "text": "Evidências originais e rastreabilidade\nNo projeto local, as evidências relatadas foram preservadas em outputs/dossie_cientifico/ e outputs/auditoria_estatistica/cr2_2015_2024/, incluindo manifestos SHA-256, relatórios CR2, notas de auditoria e exportação do TabNet. Este repositório público contém somente um recorte agregado e os controles de demonstração."
+  },
+  {
+    "objectID": "metodologia.html#pendências-documentais",
+    "href": "metodologia.html#pendências-documentais",
+    "title": "Metodologia, controles e limitações",
+    "section": "Pendências documentais",
+    "text": "Pendências documentais\nA ordem física das colunas IDADE, SEXO, CODMUNRES e CAUSABAS dos CSVs sem cabeçalho de 2022 e 2023 ainda não recebeu confirmação oficial específica. O mapeamento auditado foi:\n\n\n\nVariável\n2022\n2023\n\n\n\n\nIDADE\n8\n9\n\n\nSEXO\n9\n10\n\n\nCODMUNRES\n16\n17\n\n\nCAUSABAS\n46\n46\n\n\n\nAs posições são contadas a partir de 1. Os resultados passaram por validações estruturais e concordaram com os totais TabNet, mas não devem ser descritos como posições oficialmente certificadas. Foi decidido prosseguir com o desenvolvimento e a divulgação técnica, mantendo essa ressalva."
+  },
+  {
+    "objectID": "metodologia.html#referências",
+    "href": "metodologia.html#referências",
+    "title": "Metodologia, controles e limitações",
+    "section": "Referências",
+    "text": "Referências\n\nMinistério da Saúde — SIM, Portal de Dados Abertos\nDocumentação técnica do SIM\nDATASUS — Mortalidade CID-10\nIBGE — Projeções da população, Revisão 2024"
+  }
+]

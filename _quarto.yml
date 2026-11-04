@@ -1,0 +1,45 @@
+project:
+  type: website
+  output-dir: docs
+  render:
+    - index.qmd
+    - auditoria.qmd
+    - tendencias.qmd
+    - metodologia.qmd
+    - reproducibilidade.qmd
+
+website:
+  title: "AcessaData-Health"
+  description: "Auditoria computacional da mortalidade por neoplasias malignas no Rio Grande do Sul (2015–2024)"
+  navbar:
+    logo-alt: "AcessaData-Health"
+    left:
+      - text: "Visão geral"
+        href: index.qmd
+      - text: "Auditoria"
+        href: auditoria.qmd
+      - text: "Tendências"
+        href: tendencias.qmd
+      - text: "Métodos e limites"
+        href: metodologia.qmd
+      - text: "Reproduzir"
+        href: reproducibilidade.qmd
+  page-footer:
+    left: "AcessaData-Health · Entrega 01 · Auditoria computacional"
+    right: "Publicação técnica preliminar · RS, 2015–2024"
+  search: true
+
+lang: pt-BR
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
+    toc-depth: 3
+    code-fold: true
+    code-summary: "Mostrar código de verificação"
+    number-sections: false
+execute:
+  echo: true
+  warning: false
+  message: false

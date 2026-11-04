@@ -1,0 +1,53 @@
+---
+title: "Resultados estatísticos e limites inferenciais"
+subtitle: "Regressão de Poisson ajustada por idade e incerteza CR2"
+---
+
+## Modelo e interpretação
+
+Para cada sexo, foi ajustado um modelo de Poisson com ligação logarítmica, ajuste por 19 faixas etárias e *offset* `log(população)`:
+
+$$
+\log\{E(Y_{at})\} = \log(P_{at}) + \alpha + \beta(t-2015) + \gamma_a
+$$
+
+A variação percentual anual estimada é $\mathrm{APC}=100(\exp(\beta)-1)$. **Não é uma regressão diretamente aplicada à série das taxas padronizadas**.
+
+## Estimativas CR2
+
+As estimativas abaixo foram **transcritas dos relatórios estatísticos locais previamente auditados**. O código R a seguir exibe e representa os valores agregados, mas **não reestima o modelo** (os microdados não acompanham a publicação).
+
+```{r}
+#| label: tbl-cr2
+#| tbl-cap: "APC e intervalos CR2/Satterthwaite — valores auditados e transcritos"
+apc <- read.csv("dados_publicos/apc_cr2.csv", stringsAsFactors=FALSE)
+stopifnot(nrow(apc)==4, all(apc$ic_inferior < apc$apc),
+          all(apc$apc < apc$ic_superior))
+knitr::kable(apc, col.names=c("Sexo", "Modelo", "APC (%)", "IC inf. (%)", "IC sup. (%)", "p CR2", "gl"), digits=4)
+```
+
+```{r}
+#| label: fig-cr2
+#| fig-cap: "Estimativas pontuais de APC e intervalos de 95% CR2; linha tracejada indica APC = 0"
+#| fig-width: 10
+#| fig-height: 4.6
+par(mar=c(4.5, 18, 1.5, 2))
+pos <- 4:1
+rotulos <- paste(apc$sexo, "—", apc$modelo)
+plot(NA, xlim=c(-2.2, 1.1), ylim=c(.5,4.5), yaxt="n",
+     xlab="Variação percentual anual (%)", ylab="", bty="l")
+abline(v=0, lty=2, col="#697c84", lwd=1.5)
+axis(2, at=pos, labels=rotulos, las=1, cex.axis=.8, tick=FALSE)
+cor <- ifelse(apc$sexo=="Feminino", "#087f88", "#17364b")
+segments(apc$ic_inferior, pos, apc$ic_superior, pos,
+         col=cor, lwd=3)
+points(apc$apc, pos, pch=19, cex=1.3, col=cor)
+```
+
+Nos modelos lineares, os graus de liberdade de Satterthwaite foram aproximadamente **4,47** por sexo. Na especificação com indicadores de 2020/2021, foram aproximadamente **1,05 no feminino** e **3,86 no masculino**.
+
+**Leitura correta:** as APCs pontuais são negativas nos dois sexos. Os intervalos CR2 masculinos permanecem inteiramente negativos nos dois modelos; os femininos incluem zero. Isso **não comprova** estabilidade da mortalidade feminina nem causalidade de qualquer evento histórico.
+
+::: {.callout-warning title="Inferência com poucos períodos"}
+Existem apenas dez anos distintos. A correção CR2 não resolve automaticamente correlação serial, e os indicadores de 2020/2021 foram explorados após inspeção de resíduos. Esta entrega não substitui revisão estatística externa.
+:::

@@ -1,0 +1,50 @@
+---
+title: "Reproduzir a auditoria pública"
+subtitle: "Verificações agregadas executáveis em R e Python"
+---
+
+## Estrutura e escopo
+
+Os dados públicos deste repositório são três CSVs **agregados**. Os scripts conferem totais, intervalos de anos, reconciliação de exclusões, confronto TabNet e coerência estrutural dos valores CR2 transcritos.
+
+```text
+_quarto.yml
+index.qmd
+auditoria.qmd
+tendencias.qmd
+metodologia.qmd
+reproducibilidade.qmd
+dados_publicos/
+  conciliacao_anual.csv
+  confronto_tabnet.csv
+  apc_cr2.csv
+scripts/
+  verificar_agregados.R
+  verificar_agregados.py
+```
+
+## Executar no Windows (PowerShell)
+
+No diretório da publicação:
+
+```powershell
+Rscript .\scripts\verificar_agregados.R
+python .\scripts\verificar_agregados.py
+quarto render
+New-Item -ItemType File -Path .\docs\.nojekyll -Force | Out-Null
+```
+
+`quarto render` exige o [Quarto CLI](https://quarto.org/docs/get-started/) e R com o pacote `knitr` disponível para os blocos de código. **Nenhuma conexão com o GitHub é feita por esses comandos.**
+
+## O que cada camada realmente demonstra
+
+- **Scripts agregados deste repositório:** reproduzem as contas e verificam consistência das três tabelas publicadas.
+- **Resultados da auditoria local original:** foram obtidos de arquivos completos SIM/IBGE e registrados em relatórios, manifestos e saídas anteriormente gerados.
+- **TabNet:** confronto contra tabulação institucional, mas utiliza a mesma fonte de mortalidade SIM.
+- **AdVeri:** quatro verificações específicas em arquivos CSV processados; não é uma certificação estatística ou documental universal.
+
+Para reprocessar microdados do zero, outro pesquisador precisará obter os recursos oficiais compatíveis, documentar sua versão/layout, reproduzir transformações, reconstruir os denominadores e reexecutar as análises estatísticas. **Esta demonstração não fornece um pipeline integral a partir do SIM bruto.**
+
+## Publicação GitHub Pages
+
+Esta publicação usa saída `docs/` para o [GitHub Pages](https://quarto.org/docs/publishing/github-pages.html). Depois de revisar o conteúdo e renderizar localmente, crie um repositório **separado do ambiente de pesquisa** e, em **Settings → Pages**, publique a partir de `main` / `docs`.

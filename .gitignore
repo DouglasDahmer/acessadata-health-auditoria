@@ -1,0 +1,26 @@
+# Artefatos locais do Quarto
+/.quarto/
+/*_cache/
+/*_files/
+
+# Fontes brutas ou potencialmente sensíveis: nao publicar
+/data/
+/outputs/
+*.zip
+*.7z
+*.xlsx
+*.xls
+*.parquet
+*.sqlite
+*.db
+*.ipynb_checkpoints
+*.env
+.env*
+__pycache__/
+*.pyc
+
+# Arquivos nao destinados a divulgacao
+*.log
+*.bak
+
+**/*.quarto_ipynb

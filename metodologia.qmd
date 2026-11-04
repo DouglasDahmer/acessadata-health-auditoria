@@ -1,0 +1,51 @@
+---
+title: "Metodologia, controles e limitações"
+---
+
+## Recorte epidemiológico
+
+- **População-alvo:** residentes do Rio Grande do Sul, identificados por município de residência (códigos iniciados em `43`).
+- **Evento:** óbitos cuja causa básica pertence a **CID-10 C00–C97**. Não são casos incidentes de câncer.
+- **Período:** 2015–2024.
+- **Estratos:** 10 anos × 2 sexos × 19 faixas etárias, de 00–04 até 90+.
+- **Denominadores:** projeções populacionais do IBGE, Revisão 2024, por sexo e idade, agregadas conforme o estudo.
+
+A taxa específica é $(\mathrm{óbitos}/\mathrm{população})\times 100.000$. A padronização direta utiliza pesos fixos provenientes da **população total do RS em 2024 (ambos os sexos)**. Não equivale à população-padrão mundial.
+
+## Matriz de controles
+
+| Controle | Evidência relatada na auditoria local | O que comprova |
+|---|---|---|
+| Integridade | 11/11 fontes locais com SHA-256 conferido | Correspondência dos arquivos locais aos hashes do manifesto |
+| Extração | SIM 2015–2024, conferência estrutural de 2022–2023 | Estrutura e consistência dos dados no escopo examinado |
+| Conciliação | 194.368 totais; 194.349 classificados; 19 diferenças | Regras de inclusão/exclusão reconciliadas |
+| Dupla implementação | Python × R para numeradores, denominadores, taxas e modelos | Reprodutibilidade entre implementações no escopo testado |
+| AdVeri 0.13.0.dev1 | 4 verificações `VALIDADO`, tolerância zero | Duas contagens e duas somas em CSVs processados |
+| TabNet | 2022 e 2023 idênticos ao SIM local | Concordância externa de consulta sobre a mesma fonte SIM |
+| CR2 | Correção por agrupamento anual e Satterthwaite | Sensibilidade da incerteza à especificação adotada |
+
+A AdVeri **não** certificou o layout oficial, nem validou diretamente os pressupostos estatísticos. A concordância entre Python e R também não substitui avaliação epidemiológica.
+
+## Evidências originais e rastreabilidade
+
+No projeto local, as evidências relatadas foram preservadas em `outputs/dossie_cientifico/` e `outputs/auditoria_estatistica/cr2_2015_2024/`, incluindo manifestos SHA-256, relatórios CR2, notas de auditoria e exportação do TabNet. Este repositório público contém **somente um recorte agregado e os controles de demonstração**.
+
+## Pendências documentais
+
+A ordem física das colunas **`IDADE`**, **`SEXO`**, **`CODMUNRES`** e **`CAUSABAS`** dos CSVs **sem cabeçalho** de 2022 e 2023 ainda não recebeu confirmação oficial específica. O mapeamento auditado foi:
+
+| Variável | 2022 | 2023 |
+|---|---:|---:|
+| `IDADE` | 8 | 9 |
+| `SEXO` | 9 | 10 |
+| `CODMUNRES` | 16 | 17 |
+| `CAUSABAS` | 46 | 46 |
+
+As posições são contadas a partir de 1. Os resultados passaram por validações estruturais e concordaram com os totais TabNet, mas **não devem ser descritos como posições oficialmente certificadas**. Foi decidido prosseguir com o desenvolvimento e a divulgação técnica, mantendo essa ressalva.
+
+## Referências
+
+- [Ministério da Saúde — SIM, Portal de Dados Abertos](https://dadosabertos.saude.gov.br/dataset/sim)
+- [Documentação técnica do SIM](https://svs.aids.gov.br/daent/cgiae/coesv/sistemas-informacao/sim/documentacao/)
+- [DATASUS — Mortalidade CID-10](https://datasus.saude.gov.br/mortalidade-desde-1996-pela-cid-10/)
+- [IBGE — Projeções da população, Revisão 2024](https://www.ibge.gov.br/estatisticas/sociais/populacao/9109-projecao-da-populacao.html)
