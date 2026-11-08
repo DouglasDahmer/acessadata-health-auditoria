@@ -1,6 +1,6 @@
 ---
 title: "Auditoria computacional — Mortalidade por câncer no RS"
-subtitle: "Série histórica 2015–2024 | Entrega 01 do AcessaData-Health"
+subtitle: "Série histórica 2015–2024 | Fases 1 e 2 do AcessaData-Health"
 date: "2026-11-03"
 ---
 
@@ -33,6 +33,7 @@ date: "2026-11-03"
 |---|---|
 | [Auditoria das contagens](auditoria.qmd) | Conciliação anual, gráfico e confronto TabNet |
 | [Resultados estatísticos](tendencias.qmd) | APC, intervalos CR2 e limites inferenciais |
+| [Análise epidemiológica](analise_epidemiologica.qmd) | Contagens, taxas brutas e taxas padronizadas por idade |
 | [Metodologia e ressalvas](metodologia.qmd) | Definições, denominadores, AdVeri e pendências |
 | [Reproduzir esta demonstração](reproducibilidade.qmd) | Arquivos abertos agregados, scripts e comandos |
 

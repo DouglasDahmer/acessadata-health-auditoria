@@ -1,6 +1,6 @@
 # AcessaData-Health · Auditoria computacional 2015–2024
 
-**Entrega 01 — demonstração pública de auditoria e reprodutibilidade.**
+**Entregas 01 e 02 — auditoria computacional e análise epidemiológica.**
 
 Projeto técnico de análise de mortalidade por neoplasias malignas (CID-10 C00–C97) em residentes do Rio Grande do Sul (RS), com base no SIM e projeções populacionais do IBGE.
 
@@ -25,6 +25,7 @@ Esta pasta é um **projeto Quarto**. O HTML gerado reúne explicações, tabelas
 - `index.qmd`: introdução e escopo.
 - `auditoria.qmd`: conciliação anual e confronto TabNet.
 - `tendencias.qmd`: resultados CR2 e suas limitações.
+- `analise_epidemiologica.qmd`: contagens, taxas brutas, padronização etária e interpretação científica.
 - `metodologia.qmd`: regras, fontes, escopo e pendências.
 - `reproducibilidade.qmd`: instruções para os testes públicos.
 - `dados_publicos/`: **somente tabelas agregadas**.
