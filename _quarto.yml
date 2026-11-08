@@ -30,7 +30,7 @@ website:
       - text: "Reproduzir"
         href: reproducibilidade.qmd
   page-footer:
-    left: "AcessaData-Health · Entrega 01 · Auditoria computacional"
+    left: "AcessaData-Health · Fases 1 e 2 · Auditoria e análise epidemiológica"
     right: "Publicação técnica preliminar · RS, 2015–2024"
   search: true
 
