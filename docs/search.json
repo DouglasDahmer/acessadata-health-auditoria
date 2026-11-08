@@ -35,25 +35,102 @@
     "text": "Publicação GitHub Pages\nEsta publicação usa saída docs/ para o GitHub Pages. Depois de revisar o conteúdo e renderizar localmente, crie um repositório separado do ambiente de pesquisa e, em Settings → Pages, publique a partir de main / docs."
   },
   {
-    "objectID": "tendencias.html",
-    "href": "tendencias.html",
-    "title": "Resultados estatísticos e limites inferenciais",
+    "objectID": "analise_epidemiologica.html",
+    "href": "analise_epidemiologica.html",
+    "title": "Análise epidemiológica",
     "section": "",
-    "text": "Para cada sexo, foi ajustado um modelo de Poisson com ligação logarítmica, ajuste por 19 faixas etárias e offset log(população):\n\\[\n\\log\\{E(Y_{at})\\} = \\log(P_{at}) + \\alpha + \\beta(t-2015) + \\gamma_a\n\\]\nA variação percentual anual estimada é \\(\\mathrm{APC}=100(\\exp(\\beta)-1)\\). Não é uma regressão diretamente aplicada à série das taxas padronizadas."
+    "text": "Examinar a evolução dos óbitos por neoplasias malignas (causa básica CID-10 C00–C97) entre residentes do Rio Grande do Sul (RS), por sexo e ano do óbito, de 2015 a 2024. Esta é a Fase 2 do AcessaData-Health.\nOs indicadores apresentados utilizam 380 estratos (10 anos × 2 sexos × 19 faixas etárias) previamente auditados no projeto científico original. Dos 194.368 óbitos identificados no período, 194.349 foram classificados nos estratos analíticos; 19 não integraram essas séries. Os totais gerais da pesquisa preservam os 19 registros."
   },
   {
-    "objectID": "tendencias.html#modelo-e-interpretação",
-    "href": "tendencias.html#modelo-e-interpretação",
-    "title": "Resultados estatísticos e limites inferenciais",
+    "objectID": "analise_epidemiologica.html#objetivo-e-escopo",
+    "href": "analise_epidemiologica.html#objetivo-e-escopo",
+    "title": "Análise epidemiológica",
     "section": "",
-    "text": "Para cada sexo, foi ajustado um modelo de Poisson com ligação logarítmica, ajuste por 19 faixas etárias e offset log(população):\n\\[\n\\log\\{E(Y_{at})\\} = \\log(P_{at}) + \\alpha + \\beta(t-2015) + \\gamma_a\n\\]\nA variação percentual anual estimada é \\(\\mathrm{APC}=100(\\exp(\\beta)-1)\\). Não é uma regressão diretamente aplicada à série das taxas padronizadas."
+    "text": "Examinar a evolução dos óbitos por neoplasias malignas (causa básica CID-10 C00–C97) entre residentes do Rio Grande do Sul (RS), por sexo e ano do óbito, de 2015 a 2024. Esta é a Fase 2 do AcessaData-Health.\nOs indicadores apresentados utilizam 380 estratos (10 anos × 2 sexos × 19 faixas etárias) previamente auditados no projeto científico original. Dos 194.368 óbitos identificados no período, 194.349 foram classificados nos estratos analíticos; 19 não integraram essas séries. Os totais gerais da pesquisa preservam os 19 registros."
   },
   {
-    "objectID": "tendencias.html#estimativas-cr2",
-    "href": "tendencias.html#estimativas-cr2",
-    "title": "Resultados estatísticos e limites inferenciais",
-    "section": "Estimativas CR2",
-    "text": "Estimativas CR2\nAs estimativas abaixo foram transcritas dos relatórios estatísticos locais previamente auditados. O código R a seguir exibe e representa os valores agregados, mas não reestima o modelo (os microdados não acompanham a publicação).\n\n\nMostrar código de verificação\napc &lt;- read.csv(\"dados_publicos/apc_cr2.csv\", stringsAsFactors=FALSE)\nstopifnot(nrow(apc)==4, all(apc$ic_inferior &lt; apc$apc),\n          all(apc$apc &lt; apc$ic_superior))\nknitr::kable(apc, col.names=c(\"Sexo\", \"Modelo\", \"APC (%)\", \"IC inf. (%)\", \"IC sup. (%)\", \"p CR2\", \"gl\"), digits=4)\n\n\n\n\nTabela 1: APC e intervalos CR2/Satterthwaite — valores auditados e transcritos\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSexo\nModelo\nAPC (%)\nIC inf. (%)\nIC sup. (%)\np CR2\ngl\n\n\n\n\nFeminino\nLinear\n-0.4144\n-0.8788\n0.0522\n0,0702\n4.47\n\n\nMasculino\nLinear\n-1.6318\n-1.9945\n-1.2677\n&lt;0,001\n4.47\n\n\nFeminino\nIndicadores 2020/2021\n-0.3219\n-1.4009\n0.7689\n0,174\n1.05\n\n\nMasculino\nIndicadores 2020/2021\n-1.5972\n-1.9736\n-1.2192\n&lt;0,001\n3.86\n\n\n\n\n\n\n\n\n\n\nMostrar código de verificação\npar(mar=c(4.5, 18, 1.5, 2))\npos &lt;- 4:1\nrotulos &lt;- paste(apc$sexo, \"—\", apc$modelo)\nplot(NA, xlim=c(-2.2, 1.1), ylim=c(.5,4.5), yaxt=\"n\",\n     xlab=\"Variação percentual anual (%)\", ylab=\"\", bty=\"l\")\nabline(v=0, lty=2, col=\"#697c84\", lwd=1.5)\naxis(2, at=pos, labels=rotulos, las=1, cex.axis=.8, tick=FALSE)\ncor &lt;- ifelse(apc$sexo==\"Feminino\", \"#087f88\", \"#17364b\")\nsegments(apc$ic_inferior, pos, apc$ic_superior, pos,\n         col=cor, lwd=3)\npoints(apc$apc, pos, pch=19, cex=1.3, col=cor)\n\n\n\n\n\n\n\n\nFigura 1: Estimativas pontuais de APC e intervalos de 95% CR2; linha tracejada indica APC = 0\n\n\n\n\n\nNos modelos lineares, os graus de liberdade de Satterthwaite foram aproximadamente 4,47 por sexo. Na especificação com indicadores de 2020/2021, foram aproximadamente 1,05 no feminino e 3,86 no masculino.\nLeitura correta: as APCs pontuais são negativas nos dois sexos. Os intervalos CR2 masculinos permanecem inteiramente negativos nos dois modelos; os femininos incluem zero. Isso não comprova estabilidade da mortalidade feminina nem causalidade de qualquer evento histórico.\n\n\n\n\n\n\nAvisoInferência com poucos períodos\n\n\n\nExistem apenas dez anos distintos. A correção CR2 não resolve automaticamente correlação serial, e os indicadores de 2020/2021 foram explorados após inspeção de resíduos. Esta entrega não substitui revisão estatística externa."
+    "objectID": "analise_epidemiologica.html#métodos",
+    "href": "analise_epidemiologica.html#métodos",
+    "title": "Análise epidemiológica",
+    "section": "Métodos",
+    "text": "Métodos\n\nÓbitos classificados: contagem anual por sexo.\nTaxa bruta: óbitos classificados divididos pela população estimada do mesmo sexo e ano, multiplicados por 100.000.\nTaxa padronizada por idade: método direto, com pesos fixos das 19 faixas etárias da população do RS em 2024, somando os dois sexos. Os mesmos pesos são aplicados às taxas específicas por idade de homens e mulheres.\n\nAs contagens e taxas desta página são descritivas. A análise inferencial de tendência está documentada separadamente e não consiste em regressão direta das taxas padronizadas.\n\n\n\n\n\n\nNotaEscopo da verificação pública\n\n\n\nO código incorporado recalcula as taxas brutas e reconcilia os totais usando CSVs agregados públicos. As taxas padronizadas foram recalculadas e confrontadas independentemente em R e Python no projeto científico original, que contém os 380 estratos necessários; esta página não reprocessa esses microdados nem reestima os modelos de tendência. A verificação de 19 linhas de pesos corresponde à estrutura publicada, não substituindo a validação dos valores dos pesos contra a população original."
+  },
+  {
+    "objectID": "analise_epidemiologica.html#óbitos-classificados-por-sexo",
+    "href": "analise_epidemiologica.html#óbitos-classificados-por-sexo",
+    "title": "Análise epidemiológica",
+    "section": "1. Óbitos classificados por sexo",
+    "text": "1. Óbitos classificados por sexo\n\n\n\nÓbitos classificados anuais por sexo, com eixo vertical iniciado em zero e estilos de linha distintos.\n\n\nFonte e escopo: SIM / Ministério da Saúde; CID-10 C00–C97; residentes do RS. Os 19 registros não classificados não integram as séries estratificadas.\nOs números absolutos aumentaram entre 2015 e 2024 em ambos os sexos. Contagens absolutas não mensuram, isoladamente, a evolução do risco populacional."
+  },
+  {
+    "objectID": "analise_epidemiologica.html#taxas-brutas",
+    "href": "analise_epidemiologica.html#taxas-brutas",
+    "title": "Análise epidemiológica",
+    "section": "2. Taxas brutas",
+    "text": "2. Taxas brutas\n\n\n\nTaxas brutas anuais por sexo, por 100 mil habitantes.\n\n\nAs taxas brutas consideram o tamanho da população, mas não controlam sua composição etária. A comparação entre os anos extremos mostra aumento das taxas brutas nos dois sexos."
+  },
+  {
+    "objectID": "analise_epidemiologica.html#taxas-padronizadas-por-idade",
+    "href": "analise_epidemiologica.html#taxas-padronizadas-por-idade",
+    "title": "Análise epidemiológica",
+    "section": "3. Taxas padronizadas por idade",
+    "text": "3. Taxas padronizadas por idade\n\n\n\nTaxas de mortalidade padronizadas por idade, por sexo e ano, por 100 mil habitantes.\n\n\nAplicando uma mesma estrutura etária de referência (RS, 2024, ambos os sexos), ambas as séries apresentam valores menores em 2024 do que em 2015, com redução mais intensa no masculino. Esse contraste com as taxas brutas é compatível com influência da composição etária, mas não quantifica isoladamente o efeito do envelhecimento."
+  },
+  {
+    "objectID": "analise_epidemiologica.html#comparação-descritiva-2015-e-2024",
+    "href": "analise_epidemiologica.html#comparação-descritiva-2015-e-2024",
+    "title": "Análise epidemiológica",
+    "section": "4. Comparação descritiva: 2015 e 2024",
+    "text": "4. Comparação descritiva: 2015 e 2024\n\n\nMostrar código de verificação\ninicio &lt;- series[series$ano == 2015, ]\nfim &lt;- series[series$ano == 2024, ]\ncomp &lt;- merge(inicio, fim, by = \"sexo\", suffixes = c(\"_2015\", \"_2024\"))\nvar_pct &lt;- function(x0, x1) 100 * (x1 / x0 - 1)\n\nresumo &lt;- data.frame(\n  Sexo = comp$sexo,\n  `Óbitos 2015` = comp$obitos_classificados_2015,\n  `Óbitos 2024` = comp$obitos_classificados_2024,\n  `Variação dos óbitos (%)` = round(var_pct(comp$obitos_classificados_2015, comp$obitos_classificados_2024), 2),\n  `Variação da taxa bruta (%)` = round(var_pct(comp$taxa_bruta_100mil_2015, comp$taxa_bruta_100mil_2024), 2),\n  `Variação da taxa padronizada (%)` = round(var_pct(comp$taxa_padronizada_100mil_2015, comp$taxa_padronizada_100mil_2024), 2),\n  check.names = FALSE\n)\nknitr::kable(resumo, format = \"html\", digits = 2)\n\n\n\n\nTabela 1: Indicadores em 2015 e 2024 e variação percentual relativa entre os extremos\n\n\n\n\n\n\nSexo\nÓbitos 2015\nÓbitos 2024\nVariação dos óbitos (%)\nVariação da taxa bruta (%)\nVariação da taxa padronizada (%)\n\n\n\n\nFeminino\n8228\n9965\n21.11\n19.22\n-2.36\n\n\nMasculino\n9865\n11107\n12.59\n11.17\n-11.58\n\n\n\n\n\n\n\n\nAs variações percentuais apresentadas comparam apenas os anos extremos; não representam a variação percentual anual estimada (APC) pela regressão."
+  },
+  {
+    "objectID": "analise_epidemiologica.html#tendência-ajustada-e-incerteza",
+    "href": "analise_epidemiologica.html#tendência-ajustada-e-incerteza",
+    "title": "Análise epidemiológica",
+    "section": "5. Tendência ajustada e incerteza",
+    "text": "5. Tendência ajustada e incerteza\nOs modelos de Poisson previamente auditados, ajustados por faixa etária com offset populacional, estimaram:\n\n\n\nSexo\nAPC anual, modelo linear\nIC95% CR2/Satterthwaite\n\n\n\n\nFeminino\n−0,4144%\n−0,8788% a +0,0522%\n\n\nMasculino\n−1,6318%\n−1,9945% a −1,2677%\n\n\n\nNa especificação linear com CR2, o intervalo masculino permaneceu abaixo de zero; o feminino incluiu zero. Assim, não se confirmou tendência estatisticamente diferente de zero no feminino ao nível bilateral de 5% sob essa especificação. Os coeficientes e intervalos foram transcritos de auditorias anteriores, não recalculados nesta página."
+  },
+  {
+    "objectID": "analise_epidemiologica.html#limitações",
+    "href": "analise_epidemiologica.html#limitações",
+    "title": "Análise epidemiológica",
+    "section": "6. Limitações",
+    "text": "6. Limitações\n\nA série reúne apenas dez anos; a correção CR2 não elimina automaticamente dependência serial.\nAs oscilações de 2020 e 2021 não sustentam inferências causais.\nOs 19 óbitos sem classificação completa estão nos totais gerais, mas não nos indicadores estratificados por sexo/idade.\nAs taxas padronizadas usam uma população-padrão interna (RS em 2024), não um padrão mundial.\nA ordem física dos campos nos CSVs sem cabeçalho de 2022 e 2023 ainda não foi certificada documentalmente.\nAs séries agregadas publicadas não permitem refazer, por si só, toda a padronização ou a estimação dos modelos originais.\n\nEstado: resultados descritivos reproduzidos em R e Python no escopo testado; interpretação científica preliminar."
+  },
+  {
+    "objectID": "analise_epidemiologica.html#fontes",
+    "href": "analise_epidemiologica.html#fontes",
+    "title": "Análise epidemiológica",
+    "section": "Fontes",
+    "text": "Fontes\n\nSistema de Informações sobre Mortalidade (SIM) — Ministério da Saúde\nDATASUS — Mortalidade pela CID-10\nIBGE — Projeções da População"
+  },
+  {
+    "objectID": "auditoria.html",
+    "href": "auditoria.html",
+    "title": "Auditoria das contagens",
+    "section": "",
+    "text": "O recorte inclui óbitos cuja causa básica está no intervalo CID-10 C00–C97, de pessoas residentes no Rio Grande do Sul. Registros sem sexo e/ou idade classificáveis foram mantidos nos totais gerais, mas não nos estratos dos modelos.\n\n\nMostrar código de verificação\nd &lt;- read.csv(\"dados_publicos/conciliacao_anual.csv\", stringsAsFactors = FALSE)\nstopifnot(nrow(d) == 10, sum(d$total) == 194368,\n          sum(d$classificados) == 194349,\n          sum(d$diferenca) == 19,\n          all(d$total - d$classificados == d$diferenca))\nexibir &lt;- rbind(d, data.frame(ano=\"Total\", total=sum(d$total),\n                              classificados=sum(d$classificados),\n                              diferenca=sum(d$diferenca)))\nknitr::kable(exibir, col.names=c(\"Ano\", \"Total\", \"Classificados\", \"Diferença\"))\n\n\n\n\nTabela 1: Óbitos por ano, classificados e diferença para os estratos\n\n\n\n\n\n\nAno\nTotal\nClassificados\nDiferença\n\n\n\n\n2015\n18094\n18093\n1\n\n\n2016\n18409\n18409\n0\n\n\n2017\n18979\n18978\n1\n\n\n2018\n19085\n19079\n6\n\n\n2019\n19665\n19665\n0\n\n\n2020\n18960\n18960\n0\n\n\n2021\n19579\n19573\n6\n\n\n2022\n20234\n20229\n5\n\n\n2023\n20291\n20291\n0\n\n\n2024\n21072\n21072\n0\n\n\nTotal\n194368\n194349\n19\n\n\n\n\n\n\n\n\n\n\nMostrar código de verificação\nplot(d$ano, d$total, type=\"o\", pch=19, lwd=2,\n     col=\"#087f88\", ylim=c(17500, 22000),\n     xaxt=\"n\", xlab=\"Ano\", ylab=\"Óbitos (contagem)\",\n     main=\"Mortalidade por neoplasias malignas · RS\")\naxis(1, at=d$ano, labels=d$ano)\ngrid(col=\"#dde5e8\")\nlines(d$ano, d$total, type=\"o\", pch=19, lwd=2, col=\"#087f88\")\n\n\n\n\n\n\n\n\nFigura 1: Contagens anuais brutas de óbitos no recorte — não equivalem a taxas ajustadas por idade\n\n\n\n\n\nImportante: o gráfico de contagens não mede risco individual. Mudanças populacionais e de estrutura etária podem afetar essas contagens; as tendências ajustadas são apresentadas em outra seção."
+  },
+  {
+    "objectID": "auditoria.html#conciliação-histórica",
+    "href": "auditoria.html#conciliação-histórica",
+    "title": "Auditoria das contagens",
+    "section": "",
+    "text": "O recorte inclui óbitos cuja causa básica está no intervalo CID-10 C00–C97, de pessoas residentes no Rio Grande do Sul. Registros sem sexo e/ou idade classificáveis foram mantidos nos totais gerais, mas não nos estratos dos modelos.\n\n\nMostrar código de verificação\nd &lt;- read.csv(\"dados_publicos/conciliacao_anual.csv\", stringsAsFactors = FALSE)\nstopifnot(nrow(d) == 10, sum(d$total) == 194368,\n          sum(d$classificados) == 194349,\n          sum(d$diferenca) == 19,\n          all(d$total - d$classificados == d$diferenca))\nexibir &lt;- rbind(d, data.frame(ano=\"Total\", total=sum(d$total),\n                              classificados=sum(d$classificados),\n                              diferenca=sum(d$diferenca)))\nknitr::kable(exibir, col.names=c(\"Ano\", \"Total\", \"Classificados\", \"Diferença\"))\n\n\n\n\nTabela 1: Óbitos por ano, classificados e diferença para os estratos\n\n\n\n\n\n\nAno\nTotal\nClassificados\nDiferença\n\n\n\n\n2015\n18094\n18093\n1\n\n\n2016\n18409\n18409\n0\n\n\n2017\n18979\n18978\n1\n\n\n2018\n19085\n19079\n6\n\n\n2019\n19665\n19665\n0\n\n\n2020\n18960\n18960\n0\n\n\n2021\n19579\n19573\n6\n\n\n2022\n20234\n20229\n5\n\n\n2023\n20291\n20291\n0\n\n\n2024\n21072\n21072\n0\n\n\nTotal\n194368\n194349\n19\n\n\n\n\n\n\n\n\n\n\nMostrar código de verificação\nplot(d$ano, d$total, type=\"o\", pch=19, lwd=2,\n     col=\"#087f88\", ylim=c(17500, 22000),\n     xaxt=\"n\", xlab=\"Ano\", ylab=\"Óbitos (contagem)\",\n     main=\"Mortalidade por neoplasias malignas · RS\")\naxis(1, at=d$ano, labels=d$ano)\ngrid(col=\"#dde5e8\")\nlines(d$ano, d$total, type=\"o\", pch=19, lwd=2, col=\"#087f88\")\n\n\n\n\n\n\n\n\nFigura 1: Contagens anuais brutas de óbitos no recorte — não equivalem a taxas ajustadas por idade\n\n\n\n\n\nImportante: o gráfico de contagens não mede risco individual. Mudanças populacionais e de estrutura etária podem afetar essas contagens; as tendências ajustadas são apresentadas em outra seção."
+  },
+  {
+    "objectID": "auditoria.html#revisão-da-sobreposição-em-2022",
+    "href": "auditoria.html#revisão-da-sobreposição-em-2022",
+    "title": "Auditoria das contagens",
+    "section": "Revisão da sobreposição em 2022",
+    "text": "Revisão da sobreposição em 2022\nEm 2022, os cinco óbitos fora dos estratos foram conciliados assim: quatro registros com apenas sexo não classificado, zero com apenas idade não classificada e um com ambas as variáveis não classificadas. O código IDADE=999 está incluído nesse último registro e não constitui uma sexta exclusão."
+  },
+  {
+    "objectID": "auditoria.html#confronto-com-datasustabnet",
+    "href": "auditoria.html#confronto-com-datasustabnet",
+    "title": "Auditoria das contagens",
+    "section": "Confronto com DATASUS/TabNet",
+    "text": "Confronto com DATASUS/TabNet\n\n\nMostrar código de verificação\nt &lt;- read.csv(\"dados_publicos/confronto_tabnet.csv\")\nstopifnot(identical(as.integer(t$ano), c(2022L, 2023L)),\n          all(t$sim_local == t$tabnet),\n          all(t$diferenca == 0),\n          all(t$sim_local == d$total[match(t$ano, d$ano)]))\nknitr::kable(t, col.names=c(\"Ano\", \"SIM local\", \"TabNet\", \"Diferença\"))\n\n\n\n\nTabela 2: Comparação do processamento local com a tabulação institucional\n\n\n\n\n\n\nAno\nSIM local\nTabNet\nDiferença\n\n\n\n\n2022\n20234\n20234\n0\n\n\n2023\n20291\n20291\n0\n\n\n\n\n\n\n\n\nA exportação auditada apresentou 89 categorias CID-10 de C00 a C97, sem categorias D. Foi registrado o SHA-256 do CSV TabNet utilizado:\n0dbc6e09dde8d72ed74863ef43ca5ca3c389a6c898772fa71d29a50471f2a616\nA fonte de consulta foi o DATASUS. A coincidência de totais demonstra concordância entre procedimentos, não independência do sistema de origem (ambos utilizam o SIM).\n\n\n\n\n\n\nNotaLimite da demonstração pública\n\n\n\nEste documento recalcula a conciliação a partir de tabelas agregadas publicadas. A verificação original de registros individuais, da extração e dos microdados permanece documentada na auditoria local, mas não é executada por este site público."
   },
   {
     "objectID": "index.html",
@@ -84,32 +161,25 @@
     "text": "Fontes institucionais\n\nSistema de Informações sobre Mortalidade (SIM) — Ministério da Saúde\nDocumentação técnica do SIM\nProjeções da população — IBGE, Revisão 2024"
   },
   {
-    "objectID": "auditoria.html",
-    "href": "auditoria.html",
-    "title": "Auditoria das contagens",
+    "objectID": "tendencias.html",
+    "href": "tendencias.html",
+    "title": "Resultados estatísticos e limites inferenciais",
     "section": "",
-    "text": "O recorte inclui óbitos cuja causa básica está no intervalo CID-10 C00–C97, de pessoas residentes no Rio Grande do Sul. Registros sem sexo e/ou idade classificáveis foram mantidos nos totais gerais, mas não nos estratos dos modelos.\n\n\nMostrar código de verificação\nd &lt;- read.csv(\"dados_publicos/conciliacao_anual.csv\", stringsAsFactors = FALSE)\nstopifnot(nrow(d) == 10, sum(d$total) == 194368,\n          sum(d$classificados) == 194349,\n          sum(d$diferenca) == 19,\n          all(d$total - d$classificados == d$diferenca))\nexibir &lt;- rbind(d, data.frame(ano=\"Total\", total=sum(d$total),\n                              classificados=sum(d$classificados),\n                              diferenca=sum(d$diferenca)))\nknitr::kable(exibir, col.names=c(\"Ano\", \"Total\", \"Classificados\", \"Diferença\"))\n\n\n\n\nTabela 1: Óbitos por ano, classificados e diferença para os estratos\n\n\n\n\n\n\nAno\nTotal\nClassificados\nDiferença\n\n\n\n\n2015\n18094\n18093\n1\n\n\n2016\n18409\n18409\n0\n\n\n2017\n18979\n18978\n1\n\n\n2018\n19085\n19079\n6\n\n\n2019\n19665\n19665\n0\n\n\n2020\n18960\n18960\n0\n\n\n2021\n19579\n19573\n6\n\n\n2022\n20234\n20229\n5\n\n\n2023\n20291\n20291\n0\n\n\n2024\n21072\n21072\n0\n\n\nTotal\n194368\n194349\n19\n\n\n\n\n\n\n\n\n\n\nMostrar código de verificação\nplot(d$ano, d$total, type=\"o\", pch=19, lwd=2,\n     col=\"#087f88\", ylim=c(17500, 22000),\n     xaxt=\"n\", xlab=\"Ano\", ylab=\"Óbitos (contagem)\",\n     main=\"Mortalidade por neoplasias malignas · RS\")\naxis(1, at=d$ano, labels=d$ano)\ngrid(col=\"#dde5e8\")\nlines(d$ano, d$total, type=\"o\", pch=19, lwd=2, col=\"#087f88\")\n\n\n\n\n\n\n\n\nFigura 1: Contagens anuais brutas de óbitos no recorte — não equivalem a taxas ajustadas por idade\n\n\n\n\n\nImportante: o gráfico de contagens não mede risco individual. Mudanças populacionais e de estrutura etária podem afetar essas contagens; as tendências ajustadas são apresentadas em outra seção."
+    "text": "Para cada sexo, foi ajustado um modelo de Poisson com ligação logarítmica, ajuste por 19 faixas etárias e offset log(população):\n\\[\n\\log\\{E(Y_{at})\\} = \\log(P_{at}) + \\alpha + \\beta(t-2015) + \\gamma_a\n\\]\nA variação percentual anual estimada é \\(\\mathrm{APC}=100(\\exp(\\beta)-1)\\). Não é uma regressão diretamente aplicada à série das taxas padronizadas."
   },
   {
-    "objectID": "auditoria.html#conciliação-histórica",
-    "href": "auditoria.html#conciliação-histórica",
-    "title": "Auditoria das contagens",
+    "objectID": "tendencias.html#modelo-e-interpretação",
+    "href": "tendencias.html#modelo-e-interpretação",
+    "title": "Resultados estatísticos e limites inferenciais",
     "section": "",
-    "text": "O recorte inclui óbitos cuja causa básica está no intervalo CID-10 C00–C97, de pessoas residentes no Rio Grande do Sul. Registros sem sexo e/ou idade classificáveis foram mantidos nos totais gerais, mas não nos estratos dos modelos.\n\n\nMostrar código de verificação\nd &lt;- read.csv(\"dados_publicos/conciliacao_anual.csv\", stringsAsFactors = FALSE)\nstopifnot(nrow(d) == 10, sum(d$total) == 194368,\n          sum(d$classificados) == 194349,\n          sum(d$diferenca) == 19,\n          all(d$total - d$classificados == d$diferenca))\nexibir &lt;- rbind(d, data.frame(ano=\"Total\", total=sum(d$total),\n                              classificados=sum(d$classificados),\n                              diferenca=sum(d$diferenca)))\nknitr::kable(exibir, col.names=c(\"Ano\", \"Total\", \"Classificados\", \"Diferença\"))\n\n\n\n\nTabela 1: Óbitos por ano, classificados e diferença para os estratos\n\n\n\n\n\n\nAno\nTotal\nClassificados\nDiferença\n\n\n\n\n2015\n18094\n18093\n1\n\n\n2016\n18409\n18409\n0\n\n\n2017\n18979\n18978\n1\n\n\n2018\n19085\n19079\n6\n\n\n2019\n19665\n19665\n0\n\n\n2020\n18960\n18960\n0\n\n\n2021\n19579\n19573\n6\n\n\n2022\n20234\n20229\n5\n\n\n2023\n20291\n20291\n0\n\n\n2024\n21072\n21072\n0\n\n\nTotal\n194368\n194349\n19\n\n\n\n\n\n\n\n\n\n\nMostrar código de verificação\nplot(d$ano, d$total, type=\"o\", pch=19, lwd=2,\n     col=\"#087f88\", ylim=c(17500, 22000),\n     xaxt=\"n\", xlab=\"Ano\", ylab=\"Óbitos (contagem)\",\n     main=\"Mortalidade por neoplasias malignas · RS\")\naxis(1, at=d$ano, labels=d$ano)\ngrid(col=\"#dde5e8\")\nlines(d$ano, d$total, type=\"o\", pch=19, lwd=2, col=\"#087f88\")\n\n\n\n\n\n\n\n\nFigura 1: Contagens anuais brutas de óbitos no recorte — não equivalem a taxas ajustadas por idade\n\n\n\n\n\nImportante: o gráfico de contagens não mede risco individual. Mudanças populacionais e de estrutura etária podem afetar essas contagens; as tendências ajustadas são apresentadas em outra seção."
+    "text": "Para cada sexo, foi ajustado um modelo de Poisson com ligação logarítmica, ajuste por 19 faixas etárias e offset log(população):\n\\[\n\\log\\{E(Y_{at})\\} = \\log(P_{at}) + \\alpha + \\beta(t-2015) + \\gamma_a\n\\]\nA variação percentual anual estimada é \\(\\mathrm{APC}=100(\\exp(\\beta)-1)\\). Não é uma regressão diretamente aplicada à série das taxas padronizadas."
   },
   {
-    "objectID": "auditoria.html#revisão-da-sobreposição-em-2022",
-    "href": "auditoria.html#revisão-da-sobreposição-em-2022",
-    "title": "Auditoria das contagens",
-    "section": "Revisão da sobreposição em 2022",
-    "text": "Revisão da sobreposição em 2022\nEm 2022, os cinco óbitos fora dos estratos foram conciliados assim: quatro registros com apenas sexo não classificado, zero com apenas idade não classificada e um com ambas as variáveis não classificadas. O código IDADE=999 está incluído nesse último registro e não constitui uma sexta exclusão."
-  },
-  {
-    "objectID": "auditoria.html#confronto-com-datasustabnet",
-    "href": "auditoria.html#confronto-com-datasustabnet",
-    "title": "Auditoria das contagens",
-    "section": "Confronto com DATASUS/TabNet",
-    "text": "Confronto com DATASUS/TabNet\n\n\nMostrar código de verificação\nt &lt;- read.csv(\"dados_publicos/confronto_tabnet.csv\")\nstopifnot(identical(as.integer(t$ano), c(2022L, 2023L)),\n          all(t$sim_local == t$tabnet),\n          all(t$diferenca == 0),\n          all(t$sim_local == d$total[match(t$ano, d$ano)]))\nknitr::kable(t, col.names=c(\"Ano\", \"SIM local\", \"TabNet\", \"Diferença\"))\n\n\n\n\nTabela 2: Comparação do processamento local com a tabulação institucional\n\n\n\n\n\n\nAno\nSIM local\nTabNet\nDiferença\n\n\n\n\n2022\n20234\n20234\n0\n\n\n2023\n20291\n20291\n0\n\n\n\n\n\n\n\n\nA exportação auditada apresentou 89 categorias CID-10 de C00 a C97, sem categorias D. Foi registrado o SHA-256 do CSV TabNet utilizado:\n0dbc6e09dde8d72ed74863ef43ca5ca3c389a6c898772fa71d29a50471f2a616\nA fonte de consulta foi o DATASUS. A coincidência de totais demonstra concordância entre procedimentos, não independência do sistema de origem (ambos utilizam o SIM).\n\n\n\n\n\n\nNotaLimite da demonstração pública\n\n\n\nEste documento recalcula a conciliação a partir de tabelas agregadas publicadas. A verificação original de registros individuais, da extração e dos microdados permanece documentada na auditoria local, mas não é executada por este site público."
+    "objectID": "tendencias.html#estimativas-cr2",
+    "href": "tendencias.html#estimativas-cr2",
+    "title": "Resultados estatísticos e limites inferenciais",
+    "section": "Estimativas CR2",
+    "text": "Estimativas CR2\nAs estimativas abaixo foram transcritas dos relatórios estatísticos locais previamente auditados. O código R a seguir exibe e representa os valores agregados, mas não reestima o modelo (os microdados não acompanham a publicação).\n\n\nMostrar código de verificação\napc &lt;- read.csv(\"dados_publicos/apc_cr2.csv\", stringsAsFactors=FALSE)\nstopifnot(nrow(apc)==4, all(apc$ic_inferior &lt; apc$apc),\n          all(apc$apc &lt; apc$ic_superior))\nknitr::kable(apc, col.names=c(\"Sexo\", \"Modelo\", \"APC (%)\", \"IC inf. (%)\", \"IC sup. (%)\", \"p CR2\", \"gl\"), digits=4)\n\n\n\n\nTabela 1: APC e intervalos CR2/Satterthwaite — valores auditados e transcritos\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSexo\nModelo\nAPC (%)\nIC inf. (%)\nIC sup. (%)\np CR2\ngl\n\n\n\n\nFeminino\nLinear\n-0.4144\n-0.8788\n0.0522\n0,0702\n4.47\n\n\nMasculino\nLinear\n-1.6318\n-1.9945\n-1.2677\n&lt;0,001\n4.47\n\n\nFeminino\nIndicadores 2020/2021\n-0.3219\n-1.4009\n0.7689\n0,174\n1.05\n\n\nMasculino\nIndicadores 2020/2021\n-1.5972\n-1.9736\n-1.2192\n&lt;0,001\n3.86\n\n\n\n\n\n\n\n\n\n\nMostrar código de verificação\npar(mar=c(4.5, 18, 1.5, 2))\npos &lt;- 4:1\nrotulos &lt;- paste(apc$sexo, \"—\", apc$modelo)\nplot(NA, xlim=c(-2.2, 1.1), ylim=c(.5,4.5), yaxt=\"n\",\n     xlab=\"Variação percentual anual (%)\", ylab=\"\", bty=\"l\")\nabline(v=0, lty=2, col=\"#697c84\", lwd=1.5)\naxis(2, at=pos, labels=rotulos, las=1, cex.axis=.8, tick=FALSE)\ncor &lt;- ifelse(apc$sexo==\"Feminino\", \"#087f88\", \"#17364b\")\nsegments(apc$ic_inferior, pos, apc$ic_superior, pos,\n         col=cor, lwd=3)\npoints(apc$apc, pos, pch=19, cex=1.3, col=cor)\n\n\n\n\n\n\n\n\nFigura 1: Estimativas pontuais de APC e intervalos de 95% CR2; linha tracejada indica APC = 0\n\n\n\n\n\nNos modelos lineares, os graus de liberdade de Satterthwaite foram aproximadamente 4,47 por sexo. Na especificação com indicadores de 2020/2021, foram aproximadamente 1,05 no feminino e 3,86 no masculino.\nLeitura correta: as APCs pontuais são negativas nos dois sexos. Os intervalos CR2 masculinos permanecem inteiramente negativos nos dois modelos; os femininos incluem zero. Isso não comprova estabilidade da mortalidade feminina nem causalidade de qualquer evento histórico.\n\n\n\n\n\n\nAvisoInferência com poucos períodos\n\n\n\nExistem apenas dez anos distintos. A correção CR2 não resolve automaticamente correlação serial, e os indicadores de 2020/2021 foram explorados após inspeção de resíduos. Esta entrega não substitui revisão estatística externa."
   },
   {
     "objectID": "metodologia.html",
