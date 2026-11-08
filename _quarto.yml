@@ -1,10 +1,13 @@
 project:
   type: website
   output-dir: docs
+  resources:
+    - "imagens_fase02/**"
   render:
     - index.qmd
     - auditoria.qmd
     - tendencias.qmd
+    - analise_epidemiologica.qmd
     - metodologia.qmd
     - reproducibilidade.qmd
 
@@ -20,6 +23,8 @@ website:
         href: auditoria.qmd
       - text: "Tendências"
         href: tendencias.qmd
+      - text: "Análise epidemiológica"
+        href: analise_epidemiologica.qmd
       - text: "Métodos e limites"
         href: metodologia.qmd
       - text: "Reproduzir"
